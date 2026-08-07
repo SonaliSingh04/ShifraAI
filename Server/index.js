@@ -1,10 +1,11 @@
 import express from "express"
 import dotenv from "dotenv"
-import connectDB from "./config/ConnectDB.js";
+import connectDB from "./Config/ConnectDB.js";
 import cookieParser from "cookie-parser";
 dotenv.config()
 import cors from "cors"
 import authRouter from "./Routes/auth.route.js";
+import userRouter from "./Routes/user.route.js";
 
 
 const app = express()
@@ -24,6 +25,7 @@ app.get("/", (req, res)=>{
 })
 
 app.use("/api/auth", authRouter)
+app.use("/api/user", userRouter)
 const PORT = process.env.PORT
 
 app.listen(PORT, ()=>{
