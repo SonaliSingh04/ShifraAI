@@ -36,24 +36,17 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
-    tone:{
-        type: String,
-        enum: ["Formal",
-            "Friendly",
-            "Professional",
-            "sales",
-        ],
-        default: "Friendly"
-    },
-    theme:{
-        type: String,
-        enum: ["Light",
-            "Dark",
-            "Glass",
-            "Neon",
-        ],
-        default: "Dark"
-    },
+    tone: {
+    type: String,
+    enum: ["friendly", "professional", "sales"],
+    default: "friendly"
+},
+
+theme: {
+    type: String,
+    enum: ["light", "dark", "glass", "neon"],
+    default: "dark"
+},
     enableVoice:{
         type: Boolean,
         default: true
@@ -92,7 +85,7 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: null,
     },
-    IsSetComplete: {
+    isSetupComplete: {
         type: Boolean,
         default: false
     }
