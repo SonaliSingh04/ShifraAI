@@ -4,7 +4,7 @@
   const userId = script?.dataset?.userId;
 
   const theme = "dark";
-  const assistantConfig = null
+  let assistantConfig = null
   const link = document.createElement("link");
   link.rel = "stylesheet";
   link.href = "http://localhost:5173/assistant.css"
@@ -75,6 +75,149 @@
   button.onclick = () => {
     open = !open;
     popup.style.display = open ? "flex" : "none";
+  }
+
+  const loadAssistant = async () => {
+    try{
+      const res = await fetch(`http://localhost:8000/api/assistant/config/${userId}`);
+      const data = await res.json()
+      
+      if(data){
+        assistantConfig = data.user
+        applyConfig()
+      }
+    }catch(error){
+      console.log("Assistant Load Error:", error);
+
+    }
+  }
+
+  const applyConfig = ()=>{
+    if(!assistantConfig){
+      return;
+    }
+
+    popup.className = `shifra-popup theme-${assistantConfig.theme}`
+    button.className = `shifra-btn theme-${assistantConfig.theme}`
+
+    const title = popup.querySelector(".shifra-title")
+
+    title.innerHTML = `Hello! I am ${assistantConfig.assistantName}`
+
+    const subTitle = popup.querySelector(".shifra-sub")
+    subTitle.innerHTML = `Welcome to ${assistantConfig.businessName},
+    <br/>
+    Ask anything about your website.`;
+  }
+  loadAssistant()
+
+  const status = popup.querySelector(".shifra-status")
+
+  const wave = popup.querySelector(".shifra-wave");
+  const userText = popup.querySelector(".shifra-user-text");
+  const aiText = popup.querySelector(".shifra-ai-text");
+
+  const mic = popup.querySelector(".shifra-mic");
+
+  const speak = (text) =>{
+    window.speechSynthesis.cancel();
+
+    aiText.innerText = text;
+    status.innerText = "AI Speaking..." ;
+
+
+    const speech = new SpeechSynthesisUtterance(text)
+
+    speech.lang = "hi-IN";
+    speech.rate = 1;
+    speech.pitch = 1;
+    speech.volume = 1;
+    speech.onend = () =>{
+      status.innerText = "Tap button to Speak";
+
+      wave.style.opacity = "0";
+    }; 
+
+    window.speechSynthesis.speak(speech);
+
+  }
+ 
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+
+  if(SpeechRecognition){
+    const recognition = new SpeechRecognition();
+
+    recognition.lang = "en-US";
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    mic.onclick = ()=>{
+      wave.style.opacity = "1";
+
+      status.innerText = "Listening...";
+      userText.innerText = "";
+      aiText.innerText = "";
+
+      recognition.start();
+    }
+
+    recognition.onresult = (e)=>{
+      const text = e.results[0][0].transcript
+
+      userText.innerText = "You:" + text;
+      recognition.stop();
+
+      setTimeout(async()=>{
+        try{
+          status.innerText = "Thinking...";
+
+          const res = await fetch("http://localhost:8000/api/assistant/ask", {
+            method:"POST",
+            headers:{
+              "Content-Type":
+              "application/json",
+            },
+            body:JSON.stringify({
+              message:text,
+              userId
+            })
+          })
+
+          const data = await res.json()
+          console.log(data)
+
+          if(data.success){
+            if(data.action === "navigate"){
+              speak(data.response)
+
+              setTimeout(() =>{
+                window.location.href = data.path
+              },1500)
+
+            }else{
+              speak(data.aiResponse)
+            }
+
+          }else{
+            speak("Response Error please Check your plan")
+
+          }
+        }catch(error){
+          console.log(error)
+          speak("Server Error")
+
+        }
+      }, 600)
+
+    }
+
+    recognition.onerror =()=>{
+      status.innerText = "Tap button to Speak";
+
+      wave.style.opacity = "0";
+    }
+  }else{
+    status.innerText = "Speech Recognition not supported";
   }
 
 })();
