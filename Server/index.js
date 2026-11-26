@@ -17,7 +17,7 @@ const app = express()
 // }))
 const privateCors = cors({
     origin:[
-        "http://localhost:5173",
+        "https://shifraai-r90d.onrender.com",
     ],
     credentials:true
 });
