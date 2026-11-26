@@ -580,3 +580,39 @@ color: #6ee7b7;
         height: 30px;
     }
 }
+
+
+/* Fix: Keep microphone visible when AI response is long */
+
+.shifra-content {
+    min-height: 0;
+    box-sizing: border-box;
+}
+
+.shifra-top {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-bottom: 10px;
+}
+
+.shifra-ai-text {
+    min-height: 0;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.shifra-bottom {
+    flex: 0 0 100px;
+    height: 100px;
+}
+
+/* Mobile layout */
+@media (max-width: 640px) {
+    .shifra-bottom {
+        flex: 0 0 80px;
+        height: 80px;
+    }
+}
+
