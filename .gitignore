@@ -1,15 +1,18 @@
-# dependencies
+
+# Dependencies
 node_modules/
 
-# environment
+# Environment variables and secrets
 .env
-.env.local
+.env.*
+!.env.example
 
-# build
+# Build
 dist/
 
-# logs
+# Logs
 npm-debug.log*
+*.log
 
 # OS
 .DS_Store

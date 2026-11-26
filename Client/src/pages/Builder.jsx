@@ -93,17 +93,17 @@ function Builder({ user, setUser }) {
       setloading(false)
     }
   }
-  const remainingMessages = Math.max(0, (user?.requestLimit || 0) - (user?.totalMessages || 0));
+  const remainingMessages = Math.max(0, (user?.RequestLimit || 0) - (user?.totalMessages || 0));
 
-  const remainingDays = user?.planExpiresAt ? Math.max(0,Math.ceil((new Date(user.planExpiresAt) - 
-   new Date())/(1000 * 60 * 60 * 24))) : 0;
+  const remainingDays = user?.planExpiresAt ? Math.max(0, Math.ceil((new Date(user.planExpiresAt) -
+    new Date()) / (1000 * 60 * 60 * 24))) : 0;
 
-   const embedCode = `<script src = "${CLIENT_URL}/assistant.js" data-user-id="${user?._id}"></script>`;
+  const embedCode = `<script src = "${CLIENT_URL}/assistant.js" data-user-id="${user?._id}"></script>`;
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-8">
-      <div className="max-w-3xl mx-auto">
-        <div className='mb-6'>
+    <div className="min-h-screen bg-gray-50 px-3 py-8">
+      <div className="max-w-4xl mx-auto">
+        <div className='mb-4'>
 
           <h1 className="text-3xl font-bold text-gray-900">
             Assistant Builder
@@ -115,8 +115,8 @@ function Builder({ user, setUser }) {
 
         </div>
 
-         {user.isSetupComplete && !EditAssistant &&(
-          <div className= 'bg-white rounded-3xl border border-gray-100 shadow-sm p-3 mb-4'>
+        {user.isSetupComplete && !EditAssistant && (
+          <div className='bg-white rounded-3xl border border-gray-100 shadow-sm p-3 mb-4'>
             <p className='text-sm text-gray-400'>
               Assistant
             </p>
@@ -135,20 +135,23 @@ function Builder({ user, setUser }) {
 
               <div className='rounded-2xl border border-gray-100 bg-[#f8fafc] p-3'>
                 <p className='text-sm text-gray-400'>Gemini Status</p>
-                <h2 className={`text-xl font-bold mt-1 capitalize $
-                {user?.geminiStatus === "active"
+                <h2
+                className={`text-xl font-bold mt-1 capitalize ${
+                  user?.geminiStatus === "active"
                   ?"text-emerald-600"
                   : user?.geminiStatus === "invalid"
                   ?"text-red-500"
                 : "text-amber-500"
-              }`}>{user?.geminiStatus}</h2>
+              }`}
+              >{user?.geminiStatus}
+              </h2>
               </div>
 
               <div className='rounded-2xl border border-gray-100 bg-[#f8fafc] p-3'>
-                <p className='text-sm text-gray-400'>{user?.plan === "free"?
-                "Messages Left" : "Plan Expiry"}</p>
+                <p className='text-sm text-gray-400'>{user?.plan === "free" ?
+                  "Messages Left" : "Plan Expiry"}</p>
                 <h2 className='text-xl font-bold text-[#081028] mt-1 capitalize'>{user?.plan === "free" ?
-                 remainingMessages : `${remainingDays} Days`}</h2>
+                  remainingMessages : `${remainingDays} Days`}</h2>
               </div>
             </div>
             <div className='mt-7'>
@@ -157,13 +160,13 @@ function Builder({ user, setUser }) {
                   Where to paste this script?
                 </p>
                 <p className='text-sm text-amber-700 mt-2 leading-6'>
-                  Paste this script before the closing {" "} 
+                  Paste this script before the closing {" "}
                   <span className='font-semibold'>
                     {"</body>"}
                   </span>
                   {" "} tag of your website HTML file.
-                  <br/>
-                  <br/>
+                  <br />
+                  <br />
                   Example;
                 </p>
                 <pre className='mt-3 bg-[#0b1020] text-emerald-400 rounded-xl p-3 text-xs font-mono
@@ -181,22 +184,23 @@ Your Website Content
             <div className='relative'>
               <textarea readOnly value={embedCode} className='w-full h-18 bg-[#0b1020] text-emerald-400 rounded-2xl p-4 text-sm font-mono
               resize-none outline-none'/>
-              <button onClick={()=>{navigator.clipboard.writeText(embedCode);
+              <button onClick={() => {
+                navigator.clipboard.writeText(embedCode);
                 toast.success("Copied")
-              }} className='absolute top-4 right-4 w-10 h-10 rounded-xl bg-white flex items-center justify-center'><FiCopy/></button>
+              }} className='absolute top-4 right-4 w-10 h-10 rounded-xl bg-white flex items-center justify-center'><FiCopy /></button>
             </div>
 
-            <button onClick={() =>setEditAssistant(true)}
-      className="mt-5 px-5 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-emerald-500 text-white font-medium"
-    >
-      Edit Assistant
-    </button>
+            <button onClick={() => setEditAssistant(true)}
+              className="mt-5 px-5 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-emerald-500 text-white font-medium"
+            >
+              Edit Assistant
+            </button>
 
-          </div>       
-         )}  
+          </div>
+        )}
 
 
-        { EditAssistant && <div className='space-y-6'>
+        {EditAssistant && <div className='space-y-6'>
 
           <div className="mt-6 bg-white border-gray-100 rounded-3xl p-6 shadow-sm">
 
