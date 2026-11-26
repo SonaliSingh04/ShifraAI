@@ -72,7 +72,7 @@ import { Toaster } from "react-hot-toast"
 import ProtectedRoute from "./Components/ProtectedRoute.jsx"
 
 export const serverurl = "https://shifraaiserver-hez8.onrender.com"
-export const CLIENT_URL = "http://localhost:5173"
+export const CLIENT_URL = "https://shifraai-r90d.onrender.com"
 
 function App() {
   const [user, setUser] = React.useState(null)
