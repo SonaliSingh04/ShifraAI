@@ -7,7 +7,7 @@
   let assistantConfig = null
   const link = document.createElement("link");
   link.rel = "stylesheet";
-  link.href = "http://localhost:5173/assistant.css"
+  link.href = "https://shifraai-r90d.onrender.com/assistant.css"
   document.head.appendChild(link);
   const popup = document.createElement("div");
 
@@ -53,7 +53,7 @@
   </div>
   <div class = "shifra-bottom">
   <button class = "shifra-mic">
-  <img src = "http://localhost:5173/mic.svg" alt = "mic"
+  <img src = "https://shifraai-r90d.onrender.com/mic.svg" alt = "mic"
   class = "shifra-mic-icon"/>
   </button>
   </div>
@@ -66,7 +66,7 @@
   button.className = `shifra-btn theme-${theme}`
 
   button.innerHTML = `
-  <img src = "http://localhost:5173/logo.png"
+  <img src = "https://shifraai-r90d.onrender.com/logo.png"
   alt = "logo"/>`;
 
   document.body.appendChild(button);
