@@ -1,6 +1,6 @@
 import React from 'react'
 import {useNavigate} from 'react-router-dom'
-import Assistantpreview from '../Components/Assistantpreview'
+import Assistantpreview from '../Components/AssistantPreview'
 import logo from '../assets/logo.png'
 
 const STEPS = [
